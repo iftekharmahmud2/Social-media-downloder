@@ -3,159 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Social Media Video Downloader</title>
+  <title>Universal Video Downloader</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      background: #0b0f19;
-      color: #e2e8f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 500px;
-      background: #161f30;
-      border: 1px solid #243048;
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 8px;
-      text-align: center;
-      color: #f8fafc;
-    }
-
-    p.subtitle {
-      font-size: 0.88rem;
-      color: #94a3b8;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: 1px solid #2d3b55;
-      background: #0f1624;
-      color: #fff;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    input[type="text"]:focus {
-      border-color: #3b82f6;
-    }
-
-    button.fetch-btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      background: #3b82f6;
-      color: #ffffff;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    button.fetch-btn:hover {
-      background: #2563eb;
-    }
-
-    button.fetch-btn:disabled {
-      background: #1d4ed8;
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    #previewArea {
-      margin-top: 24px;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    #previewArea img {
-      width: 100%;
-      max-height: 240px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 12px;
-    }
-
-    .video-title {
-      font-size: 0.95rem;
-      font-weight: 500;
-      margin-bottom: 16px;
-      color: #e2e8f0;
-    }
-
-    .download-action {
-      display: inline-block;
-      width: 100%;
-      padding: 12px;
-      background: #10b981;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 600;
-      text-align: center;
-      transition: background 0.2s;
-    }
-
-    .download-action:hover {
-      background: #059669;
-    }
-
-    #errorMsg {
-      margin-top: 16px;
-      color: #ef4444;
-      font-size: 0.88rem;
-      text-align: center;
-      display: none;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: #0b0f19; color: #e2e8f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    .container { width: 100%; max-width: 480px; background: #161f30; border: 1px solid #243048; border-radius: 16px; padding: 28px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+    h1 { font-size: 1.5rem; margin-bottom: 8px; text-align: center; color: #f8fafc; }
+    p.subtitle { font-size: 0.88rem; color: #94a3b8; text-align: center; margin-bottom: 24px; }
+    .input-group { display: flex; flex-direction: column; gap: 12px; }
+    input[type="text"] { width: 100%; padding: 14px 16px; border-radius: 8px; border: 1px solid #2d3b55; background: #0f1624; color: #fff; font-size: 0.95rem; outline: none; }
+    input[type="text"]:focus { border-color: #3b82f6; }
+    button.fetch-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; background: #3b82f6; color: #ffffff; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    button.fetch-btn:hover { background: #2563eb; }
+    button.fetch-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    #previewArea { margin-top: 24px; display: none; flex-direction: column; align-items: center; text-align: center; }
+    #previewArea video { width: 100%; max-height: 240px; border-radius: 10px; margin-bottom: 12px; background: #000; }
+    .video-title { font-size: 0.95rem; font-weight: 500; margin-bottom: 16px; color: #e2e8f0; word-break: break-word; }
+    .download-action { display: inline-block; width: 100%; padding: 12px; background: #10b981; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; text-align: center; margin-bottom: 8px; }
+    .download-action:hover { background: #059669; }
+    #errorMsg { margin-top: 16px; color: #ef4444; font-size: 0.88rem; text-align: center; display: none; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Video Downloader</h1>
     <p class="subtitle">Download videos directly from IG, FB, and other platforms</p>
-
     <div class="input-group">
       <input type="text" id="urlInput" placeholder="Paste link here..." />
       <button class="fetch-btn" id="fetchBtn" onclick="processVideo()">Fetch Video</button>
     </div>
-
     <div id="errorMsg"></div>
-
     <div id="previewArea">
-      <img id="thumbImg" src="" alt="Thumbnail" />
-      <div class="video-title" id="videoTitle"></div>
-      <a class="download-action" id="downloadBtn" href="#" download>Download MP4</a>
+      <video id="videoPreview" controls playsinline></video>
+      <div class="video-title" id="videoTitle">Ready to Download</div>
+      <a class="download-action" id="downloadBtn" href="#" target="_blank" rel="noopener noreferrer">Download Video</a>
     </div>
   </div>
 
@@ -165,7 +46,7 @@
       const fetchBtn = document.getElementById('fetchBtn');
       const errorMsg = document.getElementById('errorMsg');
       const previewArea = document.getElementById('previewArea');
-      const thumbImg = document.getElementById('thumbImg');
+      const videoPreview = document.getElementById('videoPreview');
       const videoTitle = document.getElementById('videoTitle');
       const downloadBtn = document.getElementById('downloadBtn');
 
@@ -178,26 +59,45 @@
       fetchBtn.textContent = 'Processing...';
 
       try {
-        const response = await fetch('/api/info', {
+        // Direct public parser gateway (bypasses cloud server IP blocks)
+        const response = await fetch(`https://api.cobalt.tools/`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url })
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            url: url,
+            videoQuality: '720'
+          })
         });
 
         const data = await response.json();
 
-        if (!response.ok || data.error) {
-          throw new Error(data.error || 'Failed to fetch video details.');
+        if (data.status === 'error') {
+          throw new Error(data.text || 'Cannot process this URL');
         }
 
-        thumbImg.src = data.thumbnail || 'https://via.placeholder.com/400x225?text=No+Thumbnail';
-        videoTitle.textContent = data.title;
-        downloadBtn.href = `/api/download?url=${encodeURIComponent(url)}`;
-        
+        const streamUrl = data.url;
+        if (!streamUrl) {
+          throw new Error('No downloadable stream found for this link.');
+        }
+
+        videoPreview.src = streamUrl;
+        downloadBtn.href = streamUrl;
+        downloadBtn.setAttribute('download', 'video.mp4');
+        videoTitle.textContent = 'Video extracted successfully!';
         previewArea.style.display = 'flex';
       } catch (err) {
-        errorMsg.textContent = err.message;
-        errorMsg.style.display = 'block';
+        // Fallback to local server if direct gateway is unreachable
+        try {
+          const fallbackRes = await fetch('/api/download?url=' + encodeURIComponent(url));
+          if (!fallbackRes.ok) throw new Error();
+          window.location.href = '/api/download?url=' + encodeURIComponent(url);
+        } catch {
+          errorMsg.textContent = 'Failed to extract video. The link might be private or blocked.';
+          errorMsg.style.display = 'block';
+        }
       } finally {
         fetchBtn.disabled = false;
         fetchBtn.textContent = 'Fetch Video';
