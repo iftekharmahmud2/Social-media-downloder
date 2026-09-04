@@ -19,10 +19,9 @@ app.get('/', (req, res) => {
   });
 });
 
-
-// Fetch video info endpoint
+// Video info endpoint with realistic browser emulation
 app.post('/api/info', async (req, res) => {
-  const { url } = req.body;
+  let { url } = req.body;
 
   if (!url) {
     return res.status(400).json({ error: 'URL is required' });
@@ -34,23 +33,28 @@ app.post('/api/info', async (req, res) => {
       noWarnings: true,
       noCallHome: true,
       preferFreeFormats: true,
-      youtubeSkipDashManifest: true,
+      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      referer: 'https://www.facebook.com/',
+      addHeader: [
+        'Accept-Language:en-US,en;q=0.9',
+        'Sec-Fetch-Mode:navigate'
+      ]
     });
 
     res.json({
-      title: output.title || 'video',
+      title: output.title || output.description?.substring(0, 50) || 'Video',
       thumbnail: output.thumbnail || '',
       duration: output.duration || 0,
     });
   } catch (error) {
-    console.error('Extraction error:', error);
+    console.error('Extraction error:', error.message || error);
     res.status(500).json({ 
       error: 'Failed to extract video data. Platform might require cookies or link is private.' 
     });
   }
 });
 
-// Direct stream download endpoint
+// Stream download endpoint
 app.get('/api/download', (req, res) => {
   const videoUrl = req.query.url;
 
@@ -64,6 +68,8 @@ app.get('/api/download', (req, res) => {
   const subprocess = youtubedl.exec(videoUrl, {
     output: '-',
     format: 'best[ext=mp4]/best',
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    referer: 'https://www.facebook.com/'
   });
 
   subprocess.stdout.pipe(res);
